@@ -114,8 +114,8 @@ public class ChatClient extends ChatWindow
 		}
 		/** Receive and display a message */
 		public void readMsg() throws IOException {
-			String s = reader.readLine();
-			printMsg(s);
+			String message = reader.readLine();
+			printMsg(message);
 		}
 
 		/** Send a string */
@@ -205,10 +205,8 @@ public class ChatClient extends ChatWindow
 
 	}
 
-
 	public static void main(String args[]){
 		new ChatClient();
 	}
 
 }
-
