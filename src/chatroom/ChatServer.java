@@ -38,8 +38,10 @@ public class ChatServer extends ChatWindow
 				if(socket != null)
 				{
 					ClientHandler handler = new ClientHandler(socket);
+					//create a new thread to handle the new client
 					Thread newThread = new Thread(handler);
 					newThread.start();
+					//add the new thread to the list
 					clientHandlers.add(handler);
 				}
 			}
@@ -67,7 +69,7 @@ public class ChatServer extends ChatWindow
 				reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				username = reader.readLine();
 				printMsg(username + "has joined");
-				sendMsg("Hi " + username + " You have joined the classroom");
+				sendMsg(username + " Hi. I just joined the classroom");
 			}
 			catch (IOException e)
 			{
@@ -81,8 +83,7 @@ public class ChatServer extends ChatWindow
 			{
 				while(true)
 				{
-					System.out.println("handle connection");
-					// read a message from the client
+					// read a message from the client and send to all
 					sendToAllInRoom(readMsg());
 				}
 			}
@@ -102,18 +103,18 @@ public class ChatServer extends ChatWindow
 		}
 
 		/** Send a string */
-		public void sendMsg(String s)
+		public void sendMsg(String message)
 		{
-			writer.println(s);
+			writer.println(message);
 		}
 
 		//send the message to all users
-		public void sendToAllInRoom (String s)
+		public void sendToAllInRoom (String message)
 		{
 			//iterate through clients and send the message
 			for(int i=0; i<clientHandlers.size(); i++)
 			{
-				clientHandlers.get(i).sendMsg(s);
+				clientHandlers.get(i).sendMsg(message);
 			}
 		}
 		public void run()
